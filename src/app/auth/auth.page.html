@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isSignInMode ? 'Sign In' : 'Sign Up' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #authForm="ngForm" (ngSubmit)="onAuthFormSubmitted(authForm)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input
+                type="email"
+                ngModel
+                name="email"
+                required
+                email
+                #emailFormCtrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!emailFormCtrl.valid && emailFormCtrl.touched"
+              lines="none"
+            >
+              <ion-label>
+                Please enter a valid email address.
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input
+                ngModel
+                name="password"
+                type="password"
+                minlength="6"
+                required
+                #passwordFormCtrl="ngModel"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!passwordFormCtrl.valid && passwordFormCtrl.touched"
+              lines="none"
+            >
+              <ion-label>
+                Please enter at least 6 characters.
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button
+            [disabled]="!authForm.valid"
+            type="submit"
+            class="ion-padding"
+            color="primary"
+            expand="block"
+            (click)="onAuthRequested()"
+          >
+            {{ isSignInMode ? 'Sign In' : 'Sign Up' }}
+          </ion-button>
+          <hr />
+          <ion-button
+            type="button"
+            fill="clear"
+            color="secondary"
+            expand="block"
+            (click)="onAuthModeToggled()"
+          >
+            {{ isSignInMode ? 'Sign Up' : 'Sign In' }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
