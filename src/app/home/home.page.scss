@@ -1,0 +1,13 @@
+.welcome-card img {
+  max-height: 30vh;
+  overflow: hidden;
+}
+
+ion-slides ion-slide {
+  min-height: 30vh;
+  width: 80vw;
+}
+
+ion-card-header, ion-card-header>p {
+  padding-bottom: unset;
+}

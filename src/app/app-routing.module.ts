@@ -17,14 +17,12 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'event/:id',
-    children: [
-      {
-        path: '',
-        loadChildren: () =>
-          import('./event/event.module').then(m => m.EventPageModule)
-      }
-    ]
+    path: 'survey',
+    loadChildren: () => import('./survey/survey.module').then( m => m.SurveyPageModule)
+  },
+  {
+    path: 'ticket',
+    loadChildren: () => import('./ticket/ticket.module').then( m => m.TicketPageModule)
   },
 ];
 @NgModule({

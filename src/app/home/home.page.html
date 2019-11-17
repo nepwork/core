@@ -1,10 +1,89 @@
-<ion-header collapse>
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Home</ion-title>
+    <ion-title class="ion-text-center">Nepwork</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentFilter()">
+        <ion-icon slot="icon-only" name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-slides
+    class="invites-slides ion-no-padding"
+    pager="true"
+    [options]="slideOpts"
+    #slides
+    (ionSlidesDidLoad)="afterSlidesLoad(slides)"
+    (ionSlideTouchStart)="slideTouchStarted(slides)"
+    (ionSlideTouchEnd)="slideTouchEnded(slides)"
+  >
+    <ion-slide *ngFor="let svg of svgs; let i = index">
+      <img [src]="svg" alt="" />
+      <h2>Featured Event Description {{ i+1 }}</h2>
+    </ion-slide>
+    <ion-slide *ngFor="let svg of svgs; let i = index">
+      <img [src]="svg" alt="" />
+      <h2>Featured Event Detail {{ i+1 }}</h2>
+    </ion-slide>
+  </ion-slides>
+  <ion-card
+    class="welcome-card"
+    [routerLink]="['/tabs', 'event','1']"
+    routerLinkActive="router-link-active"
+    *ngFor="let card of cards"
+  >
+    <img *ngIf="!!card.img" src="/assets/shapes.svg" alt="" />
+    <app-random-hex *ngIf="!card.img"></app-random-hex>
+    <ion-card-header>
+      <ion-card-subtitle>{{ card.subtitle }}</ion-card-subtitle>
+      <ion-card-title>{{ card.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        {{ card.description }}
+      </p>
+    </ion-card-content>
+    <ion-grid fixed>
+      <ion-row class="ion-no-padding ion-justify-content-center">
+        <ion-col size="3" class="ion-text-left">
+          <ion-button fill="clear" size="small" color="primary">
+            <ion-icon name="people" slot="start"></ion-icon>
+            JOIN
+          </ion-button>
+        </ion-col>
+        <ion-col size="5" class="ion-text-center">
+          <ion-button fill="clear" size="small" color="primary">
+            <ion-icon name="share-alt" slot="start"></ion-icon>
+            SHARE
+          </ion-button>
+        </ion-col>
+        <ion-col size="4" class="ion-text-right">
+          <ion-button fill="clear" size="small" color="primary">
+            <ion-icon name="chatboxes" slot="start"></ion-icon>
+            DISCUSS
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="barcode">Show</ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

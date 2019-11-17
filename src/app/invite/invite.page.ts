@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IonSlides } from '@ionic/angular';
-import { AnimationUtilService } from '../animations/animation-util.service';
-import { Invite } from '../models/invite.model';
-
-import * as Faker from 'faker';
+import { Card } from '../models/card.model';
+import { CardsService } from '../providers/cards.service';
 
 
 @Component({
@@ -12,35 +9,27 @@ import * as Faker from 'faker';
   styleUrls: ['invite.page.scss']
 })
 export class InvitePage implements OnInit {
-  slideOpts: any;
+  queryText: string;
+  invites: Card[];
+  isInEvents = true;
 
-  svgs = ['/assets/shape.svg', '/assets/shapeX.svg', '/assets/shapeY.svg'];
-  invites: Invite[];
+  constructor(private cardsService: CardsService) {}
 
-  constructor(private animationUtil: AnimationUtilService) {}
+  ngOnInit() {}
 
-  ngOnInit() {
-    this.slideOpts = this.animationUtil.cube;
-  }
+  filterInvites() {}
 
   ionViewWillEnter() {
-    this.invites = Array(20).fill(0).map(_ => ({
-      title: Faker.lorem.words(2),
-      subtitle: Faker.company.catchPhrase(),
-      img: null,
-      description: Faker.lorem.sentences(3)
-    }));
+    this.invites = this.cardsService.randos;
   }
 
-  afterSlidesLoad(slides: IonSlides) {
-    slides.startAutoplay();
+  doRefresh(event: any) {
+    setTimeout(() => event.target.complete(), 1500);
   }
 
-  slideTouchStarted(slides: IonSlides) {
-    slides.stopAutoplay();
-  }
+  presentFilter() {}
 
-  slideTouchEnded(slides: IonSlides) {
-    setTimeout(() => slides.startAutoplay(), 1000);
+  segmentChanged(event: any) {
+    this.isInEvents = event.detail.value === 'events';
   }
 }

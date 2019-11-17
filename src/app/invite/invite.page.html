@@ -1,55 +1,58 @@
-<ion-header collapse>
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Invites
-    </ion-title>
+    <ion-segment (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="events" checked>
+        <ion-label>Events</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="polls">
+        <ion-label>Polls</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentFilter()">
+        <ion-icon slot="icon-only" name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-slides
-    class="invites-slides"
-    pager="true"
-    [options]="slideOpts"
-    #slides
-    (ionSlidesDidLoad)="afterSlidesLoad(slides)"
-    (ionSlideTouchStart)="slideTouchStarted(slides)"
-    (ionSlideTouchEnd)="slideTouchEnded(slides)"
-  >
-    <ion-slide *ngFor="let svg of svgs">
-      <img [src]="svg" alt="" />
-      <h2>Awesome Event Description {{svg.length}}</h2>
-    </ion-slide>
-    <ion-slide *ngFor="let svg of svgs">
-      <img [src]="svg" alt="" />
-      <h2>Awesome Event Description {{svg.length}}</h2>
-    </ion-slide>
-    <ion-slide *ngFor="let svg of svgs">
-      <img [src]="svg" alt="" />
-      <h2>Awesome Event Description {{svg.length}}</h2>
-    </ion-slide>
-  </ion-slides>
-
+<ion-content class="ion-padding">
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="queryText"
+      (ionChange)="filterInvites()"
+      placeholder="Search"
+      class="ion-no-padding"
+    ></ion-searchbar>
+  </ion-toolbar>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-card class="welcome-card">
     <img src="/assets/shapes.svg" alt="" />
     <ion-card-header>
-      <ion-card-subtitle>Happy New Year!</ion-card-subtitle>
-      <ion-card-title>Welcome 2020</ion-card-title>
+      <ion-card-subtitle>Birthday Bash</ion-card-subtitle>
+      <ion-card-title>Sweet 116</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p>
-        The year 2020 has arrived and so has our annual grand party for
-        welcoming the new year.. and this time the decade! Join us and bring
-        your friends :)
+        Celebrate our favorite Granny's sweet 16 all over again!
       </p>
     </ion-card-content>
+    <ng-container *ngTemplateOutlet="invCardFooter"></ng-container>
   </ion-card>
   <ion-card class="welcome-card" *ngFor="let invite of invites">
     <img *ngIf="!!invite.img" [src]="invite.img" alt="" />
-    <app-random-hex *ngIf="!invite.img" ></app-random-hex>
+    <app-random-hex *ngIf="!invite.img"></app-random-hex>
     <ion-card-header>
       <ion-card-subtitle>{{ invite.subtitle }}</ion-card-subtitle>
       <ion-card-title>{{ invite.title | titlecase }}</ion-card-title>
@@ -59,5 +62,34 @@
         {{ invite.description }}
       </p>
     </ion-card-content>
+    <ng-container *ngTemplateOutlet="invCardFooter"></ng-container>
   </ion-card>
 </ion-content>
+
+<ng-template #invCardFooter>
+  <ion-grid fixed>
+    <ion-row class="ion-no-padding ion-justify-content-center">
+      <ion-col size="4" class="ion-text-left">
+        <ion-button fill="clear" size="small" color="primary">
+          <ion-icon
+            [name]="isInEvents ? 'barcode' : 'checkbox-outline'"
+            slot="start"
+          ></ion-icon>
+          {{ isInEvents ? "TICKET" : "ANSWER" }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="4" class="ion-text-center">
+        <ion-button fill="clear" size="small" color="primary">
+          <ion-icon name="share-alt" slot="start"></ion-icon>
+          SHARE
+        </ion-button>
+      </ion-col>
+      <ion-col size="4" class="ion-text-right">
+        <ion-button fill="clear" size="small" color="primary">
+          <ion-icon name="chatboxes" slot="start"></ion-icon>
+          DISCUSS
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ng-template>

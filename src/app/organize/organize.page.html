@@ -1,12 +1,99 @@
-<ion-header collapse>
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Organize
-    </ion-title>
+    <ion-segment (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="events" checked>
+        <ion-label>Events</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="polls">
+        <ion-label>Polls</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentFilter()">
+        <ion-icon slot="icon-only" name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content class="ion-padding">
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="queryText"
+      (ionChange)="filterCards()"
+      placeholder="Search"
+      class="ion-no-padding"
+    ></ion-searchbar>
+  </ion-toolbar>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <ng-container *ngIf="isInEvents">
+    <ion-card class="welcome-card" *ngFor="let event of events">
+      <img *ngIf="!!event.img" [src]="event.img" alt="" />
+      <app-random-hex *ngIf="!event.img"></app-random-hex>
+      <ion-card-header>
+        <ion-card-subtitle>{{ event.subtitle }}</ion-card-subtitle>
+        <ion-card-title>{{ event.title | titlecase }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          {{ event.description }}
+        </p>
+      </ion-card-content>
+      <ng-content *ngTemplateOutlet="orgCardFooter"></ng-content>
+    </ion-card>
+  </ng-container>
+  <ng-container *ngIf="!isInEvents">
+    <ion-card class="welcome-card" *ngFor="let survey of surveys">
+      <img *ngIf="!!survey.img" [src]="survey.img" alt="" />
+      <app-random-hex *ngIf="!survey.img"></app-random-hex>
+      <ion-card-header>
+        <ion-card-subtitle>{{ survey.subtitle }}</ion-card-subtitle>
+        <ion-card-title>{{ survey.title | titlecase }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          {{ survey.description }}
+        </p>
+      </ion-card-content>
+      <ng-content *ngTemplateOutlet="orgCardFooter"></ng-content>
+    </ion-card>
+  </ng-container>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add">Add</ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ng-template #orgCardFooter>
+  <ion-grid fixed>
+    <ion-row class="ion-no-padding ion-justify-content-center">
+      <ion-col size="6" class="ion-text-left">
+        <ion-button fill="clear" size="small" color="primary">
+          <ion-icon
+            [name]="isInEvents ? 'people' : 'stats'"
+            slot="start"
+          ></ion-icon>
+          {{ isInEvents ? "VOLUNTEER" : "VIEW STATS" }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6" class="ion-text-right">
+        <ion-button fill="clear" size="small" color="primary">
+          <ion-icon name="share-alt" slot="start"></ion-icon>
+          SHARE
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ng-template>

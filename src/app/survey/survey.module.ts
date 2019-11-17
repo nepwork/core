@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { SurveyPageRoutingModule } from './survey-routing.module';
 
-import { HomePage } from './home.page';
-import { SharedModule } from '../shared/shared.module';
+import { SurveyPage } from './survey.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
-    SharedModule
+    SurveyPageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [SurveyPage]
 })
-export class HomePageModule {}
+export class SurveyPageModule {}

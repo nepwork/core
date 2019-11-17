@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { OrganizePage } from './organize.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: OrganizePage }])
+    RouterModule.forChild([{ path: '', component: OrganizePage }]),
+    SharedModule
   ],
   declarations: [OrganizePage]
 })
