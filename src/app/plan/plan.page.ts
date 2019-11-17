@@ -37,7 +37,7 @@ export class PlanPage implements OnInit {
 
   openSocial() {}
 
-  addFavorite() {}
+  addFavorite(item, session) {}
 
-  removeFavorite() {}
+  removeFavorite(item, session, remark) {}
 }
