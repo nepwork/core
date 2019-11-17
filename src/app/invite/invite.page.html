@@ -54,7 +54,7 @@
     <img *ngIf="!!invite.img" [src]="invite.img" alt="" />
     <app-random-hex *ngIf="!invite.img"></app-random-hex>
     <ion-card-header>
-      <ion-card-subtitle>{{ invite.subtitle }}</ion-card-subtitle>
+      <ion-card-subtitle>{{ invite.subtitle | titlecase }}</ion-card-subtitle>
       <ion-card-title>{{ invite.title | titlecase }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>

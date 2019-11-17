@@ -42,7 +42,7 @@
       <img *ngIf="!!event.img" [src]="event.img" alt="" />
       <app-random-hex *ngIf="!event.img"></app-random-hex>
       <ion-card-header>
-        <ion-card-subtitle>{{ event.subtitle }}</ion-card-subtitle>
+        <ion-card-subtitle>{{ event.subtitle | titlecase }}</ion-card-subtitle>
         <ion-card-title>{{ event.title | titlecase }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RefresherEventDetail } from '@ionic/core';
 import { IonSlides } from '@ionic/angular';
 import { AnimationUtilService } from '../animations/animation-util.service';
@@ -13,6 +13,9 @@ export class HomePage implements OnInit {
   slideOpts = {};
   svgs = ['/assets/shape.svg', '/assets/shapeX.svg', '/assets/shapeY.svg'];
   cards: Card[];
+
+  @ViewChild('slides', { read: IonSlides, static: false })
+  ionSlides: IonSlides;
 
   constructor(private animationUtil: AnimationUtilService) {}
 
@@ -31,9 +34,18 @@ export class HomePage implements OnInit {
         title: 'Merry Christmas',
         subtitle: 'White & Red Christmas',
         img: null,
-        description: 'Celebrate this Christmas in white snow with red Gluh wine.'
+        description:
+          'Celebrate this Christmas with white snow, red glüh wine & cozy fire circles.'
       }
     );
+  }
+
+  ionViewDidEnter() {
+    this.ionSlides.startAutoplay();
+  }
+
+  ionViewWillLeave() {
+    this.ionSlides.stopAutoplay();
   }
 
   presentFilter() {}
