@@ -3,6 +3,10 @@ Invite, Plan &amp; Organize
 
 Create and manage social events, tickets, surveys, organizing team, volunteers and logistics
 
+# Prototype 
+
+Go to the link in the description on your mobile browser of choice to view the current state of the prototype. 
+On a desktop browser, you have to open the developer console and switch to mobile view and select a device of your choice. 
 
 ---
 title: 'Core'
